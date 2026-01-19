@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,6 +82,7 @@
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             transform-style: preserve-3d;
             overflow: hidden;
+            cursor: pointer; /* Added pointer cursor to indicate interactivity */
         }
 
         .card:hover {
@@ -516,6 +518,16 @@
         jokeBtn.addEventListener('click', () => {
             const randomJ = jokes[Math.floor(Math.random() * jokes.length)];
             displayContent(randomJ, true);
+        });
+
+        // Click Card to reveal punchline immediately
+        mainCard.addEventListener('click', () => {
+            const pl = document.getElementById('jokePunchline');
+            // If punchline exists and isn't visible yet
+            if (pl && !pl.classList.contains('visible')) {
+                if (punchlineTimer) clearTimeout(punchlineTimer);
+                pl.classList.add('visible');
+            }
         });
 
     </script>
