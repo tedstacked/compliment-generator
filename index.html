@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compliment Generator</title>
+    <title>The Vibe Check</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* ===== RESET & BASE STYLES ===== */
+        /* ===== RESET & VARIABLES ===== */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-color: #ffffff;
+            --accent-color: #ff00cc;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,170 +30,356 @@
         }
 
         body {
-            font-family: 'Lato', sans-serif;
-            background-color: #F8F9FA;
-            color: #212529;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
             min-height: 100vh;
-            /* Flexbox to center content vertically and horizontally */
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow: hidden;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
 
-        /* ===== MAIN CONTAINER ===== */
-        .container {
-            background-color: white;
-            border-radius: 20px;
-            padding: 50px 40px;
-            max-width: 600px;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== MAIN CARD (GLASSMORPHISM) ===== */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px 30px;
             width: 100%;
-            /* Subtle shadow for depth */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 400px; /* Taller, narrower profile */
+            min-height: 600px; /* Fixed height preference */
+            box-shadow: var(--glass-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
             text-align: center;
-            /* Smooth transition for any changes */
-            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .container:hover {
+        .card:hover {
             transform: translateY(-5px);
+        }
+
+        /* Decorative blobs behind the glass */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            z-index: -1;
         }
 
         /* ===== HEADER ===== */
         h1 {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: #212529;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 15px;
+            width: 100%;
         }
 
-        /* ===== COMPLIMENT DISPLAY ===== */
-        .compliment-display {
-            font-family: 'Nunito', sans-serif;
+        /* ===== CONTENT AREA ===== */
+        .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            /* Fixed height container to prevent jumping */
+            height: 300px; 
+            margin-bottom: 20px;
+        }
+
+        .emoji-display {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .text-display {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
             font-size: 1.5rem;
-            line-height: 1.6;
-            color: #212529;
-            margin-bottom: 40px;
-            min-height: 80px;
-            /* Flexbox to center the text vertically */
+            line-height: 1.4;
+            min-height: 120px; /* Ensures space for 3-4 lines */
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #F8F9FA;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .text-display.fade-out {
+            opacity: 0;
         }
 
         /* ===== BUTTON ===== */
+        .btn-container {
+            width: 100%;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
         .generate-btn {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            background-color: #FF6B6B;
-            color: white;
+            background: #ffffff;
+            color: #e73c7e;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             border: none;
             border-radius: 50px;
-            padding: 15px 40px;
+            padding: 18px 30px;
             cursor: pointer;
-            /* Smooth color transition on hover */
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .generate-btn:hover {
-            background-color: #FFD166;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 209, 102, 0.4);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f0f0f0;
         }
 
         .generate-btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 30px;
-            }
+        .generate-btn i {
+            margin-right: 8px;
+        }
 
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .card {
+                min-height: 550px;
+                padding: 30px 20px;
+            }
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
-
-            .compliment-display {
-                font-size: 1.2rem;
-                min-height: 100px;
-            }
-
-            .generate-btn {
-                font-size: 1rem;
-                padding: 12px 30px;
+            .text-display {
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Main Container -->
-    <div class="container">
-        <h1>✨ Daily Compliment ✨</h1>
+
+    <div class="card">
+        <h1>Vibe Check</h1>
         
-        <!-- Compliment Display Area -->
-        <div class="compliment-display" id="complimentText">
-            Click the button below for a compliment!
+        <div class="content-wrapper">
+            <div class="emoji-display" id="emojiArea">✨</div>
+            <div class="text-display" id="textArea">
+                Ready for an ego boost? Hit the button.
+            </div>
         </div>
-        
-        <!-- Generate Button -->
-        <button class="generate-btn" id="generateBtn">Get a New Compliment</button>
+
+        <div class="btn-container">
+            <button class="generate-btn" id="generateBtn">
+                <i class="fa-solid fa-bolt"></i> Hit Me
+            </button>
+        </div>
     </div>
 
     <script>
-        // ===== COMPLIMENTS ARRAY =====
-        // Array containing all available compliments
+        // 100 Unique Compliments (Mix of Sweet, Funny, Edgy, Sarcastic)
         const compliments = [
-            "Your smile lights up the room! 😊",
-            "You have an amazing sense of creativity!",
-            "Your positive energy is contagious!",
-            "You're an inspiration to everyone around you! ✨",
-            "You have a great eye for detail!",
-            "Your kindness makes the world a better place! 💛",
-            "You're incredibly thoughtful and caring!",
-            "Your determination is truly admirable! 💪",
-            "You bring out the best in other people!",
-            "You have a fantastic sense of humor! 😄",
-            "Your perspective is refreshing and unique!",
-            "You're making a real difference in this world! 🌟",
-            "Your passion is absolutely inspiring!",
-            "You have an incredible ability to make people feel valued!"
+            // --- The Sweet & Genuine ---
+            { text: "Your vibe is honestly refreshing.", emoji: "🍃" },
+            { text: "You have really good taste in... well, everything.", emoji: "💅" },
+            { text: "The world is a little less terrible because you're in it.", emoji: "🌍" },
+            { text: "You’re the human equivalent of a perfect playlist.", emoji: "🎧" },
+            { text: "I bet you make babies smile.", emoji: "👶" },
+            { text: "You glow differently.", emoji: "✨" },
+            { text: "Your creative potential is terrifyingly high.", emoji: "📈" },
+            { text: "You actually listen when people speak. That’s rare.", emoji: "👂" },
+            { text: "You're not just a snack, you're the whole damn meal.", emoji: "🍔" },
+            { text: "I would 100% trust you with my passwords.", emoji: "🔒" },
+
+            // --- The Funny & Odd ---
+            { text: "I'd fight a bear for you. A gummy bear, but still.", emoji: "🐻" },
+            { text: "You’re less annoying than most people.", emoji: "😌" },
+            { text: "If you were a vegetable, you’d be a cute-cumber.", emoji: "🥒" },
+            { text: "I like your face. It's a good face.", emoji: "🌚" },
+            { text: "You’re more fun than a ball pit full of puppies.", emoji: "🐶" },
+            { text: "I would totally delete my browser history for you.", emoji: "💻" },
+            { text: "You’re cooler than the other side of the pillow.", emoji: "❄️" },
+            { text: "You’re weird, but like... the good kind of weird.", emoji: "👽" },
+            { text: "I’d share my last slice of pizza with you.", emoji: "🍕" },
+            { text: "You are the reason I look down at my phone and smile. Then walk into a pole.", emoji: "📱" },
+
+            // --- The Edgy / Cheeky / "Non-Family Friendly" Lite ---
+            { text: "You look good enough to make your ex cry.", emoji: "😈" },
+            { text: "You're a total badass and you know it.", emoji: "😎" },
+            { text: "Damn, you look good today.", emoji: "🔥" },
+            { text: "You’re smart, hot, and funny. Pick a struggle, seriously.", emoji: "🙄" },
+            { text: "I hate everyone, but I hate you the least.", emoji: "💀" },
+            { text: "You have 'Main Character' energy, bitch.", emoji: "👑" },
+            { text: "You’re intoxicating. Like, legally drunk on your vibe.", emoji: "🍷" },
+            { text: "You’re hot as hell. Just saying.", emoji: "🌶️" },
+            { text: "Your ass looks great in those pants.", emoji: "🍑" },
+            { text: "You’re the sh*t.", emoji: "💩" },
+            
+            // --- More Mixed ---
+            { text: "I would help you hide a body. No questions asked.", emoji: "🤫" },
+            { text: "You’re aging like fine wine.", emoji: "🍷" },
+            { text: "Even your bad hair days look intentional and chic.", emoji: "💇" },
+            { text: "You’re my favorite drunken text recipient.", emoji: "📲" },
+            { text: "If we were in a horror movie, you’d survive until the end.", emoji: "🔪" },
+            { text: "You’re strong as hell.", emoji: "💪" },
+            { text: "I bet you’re a demon in the sack... of potatoes. Or bed. Whatever.", emoji: "🥔" },
+            { text: "Your laugh is my favorite sound. Even the snort.", emoji: "🐷" },
+            { text: "You’re delightful, you chaotic mess.", emoji: "🌪️" },
+            { text: "I’d sober up for you.", emoji: "🍻" },
+            
+            // --- Filling the ranks to 100 ---
+            { text: "You’re a certified 10/10.", emoji: "🔟" },
+            { text: "Your brain is sexy.", emoji: "🧠" },
+            { text: "You’re sharper than a fresh set of acrylics.", emoji: "💅" },
+            { text: "You make sweatpants look like couture.", emoji: "👖" },
+            { text: "I’d pause my video game for you.", emoji: "🎮" },
+            { text: "You’re the vodka to my cranberry.", emoji: "🍸" },
+            { text: "You smell like expensive decisions.", emoji: "💸" },
+            { text: "You’re proof that God has favorites.", emoji: "🙏" },
+            { text: "I’d totally haunt you if I died. In a cute way.", emoji: "👻" },
+            { text: "You’re the only person I want to be stuck in an elevator with.", emoji: "🛗" },
+            { text: "You have a nice butt. There, I said it.", emoji: "🍑" },
+            { text: "You’re basically a limited edition.", emoji: "💎" },
+            { text: "You’re absolute magic.", emoji: "🧙‍♀️" },
+            { text: "You deserve a raise. Go tell your boss I said so.", emoji: "💰" },
+            { text: "You’re not trash, you’re treasure.", emoji: "🚮" },
+            { text: "Your eyebrows are on fleek today.", emoji: "🤨" },
+            { text: "You’re the typo I wouldn’t fix.", emoji: "📝" },
+            { text: "I’d panic if I lost you.", emoji: "😱" },
+            { text: "You’re more addictive than TikTok.", emoji: "📱" },
+            { text: "You’re a masterpiece.", emoji: "🎨" },
+            { text: "You’re the human version of Friday at 5pm.", emoji: "🕔" },
+            { text: "You probably wake up looking like this, you jerk.", emoji: "🛌" },
+            { text: "I love your twisted sense of humor.", emoji: "🤡" },
+            { text: "You’re a genius. A mad genius, but a genius.", emoji: "🧪" },
+            { text: "You could definitely start a cult. I’d join.", emoji: "🕯️" },
+            { text: "You’re radiant.", emoji: "☀️" },
+            { text: "You’re sweeter than sweet tea.", emoji: "🍵" },
+            { text: "You’re tougher than you look.", emoji: "🥊" },
+            { text: "I appreciate your existence.", emoji: "🙌" },
+            { text: "You’re a legend.", emoji: "🏆" },
+            { text: "You have impeccable music taste.", emoji: "🎵" },
+            { text: "You’re the kind of friend I’d bail out of jail.", emoji: "🚓" },
+            { text: "You’re stunning.", emoji: "🤩" },
+            { text: "You’re so cool it hurts.", emoji: "🥶" },
+            { text: "I’m obsessed with you.", emoji: "😍" },
+            { text: "You’re the cheese to my macaroni.", emoji: "🧀" },
+            { text: "You make me want to be a better person. Ugh.", emoji: "😤" },
+            { text: "You’re a star.", emoji: "⭐" },
+            { text: "You’re unforgettably awesome.", emoji: "🤘" },
+            { text: "You’re fierce.", emoji: "🦁" },
+            { text: "You’re the sprinkles on the cupcake of life.", emoji: "🧁" },
+            { text: "You have a heart of gold.", emoji: "💛" },
+            { text: "You’re breathtaking.", emoji: "🌬️" },
+            { text: "You’re a whole vibe.", emoji: "🌊" },
+            { text: "You’re the chaotic energy I need.", emoji: "⚡" },
+            { text: "You make adulthood bearable.", emoji: "🍺" },
+            { text: "You’re my favorite distraction.", emoji: "🚧" },
+            { text: "You’re clever as f*ck.", emoji: "🦊" },
+            { text: "You’re beautiful inside and out.", emoji: "💗" },
+            { text: "You’re a freakin' delight.", emoji: "🍬" },
+            { text: "You’re the bomb dot com.", emoji: "💣" },
+            { text: "You’re iconic.", emoji: "🗽" },
+            { text: "You’re a rockstar.", emoji: "🎸" },
+            { text: "You’re simply the best.", emoji: "🥇" },
+            { text: "You’re a joy to be around.", emoji: "🎉" },
+            { text: "You’re worthy of all the good things.", emoji: "🎁" },
+            { text: "You’re enough. More than enough.", emoji: "💯" },
+            { text: "You’re a keeper.", emoji: "🥅" },
+            { text: "You’re fabulous.", emoji: "💃" },
+            { text: "You’re a queen/king.", emoji: "👑" },
+            { text: "You’re dazzling.", emoji: "💎" },
+            { text: "You make my dopamine levels rise.", emoji: "🧪" },
+            { text: "You’re everything.", emoji: "🌍" },
+            { text: "I’d choose you for my zombie apocalypse team.", emoji: "🧟" },
+            { text: "You’re hilarious.", emoji: "😂" },
+            { text: "You’re a breath of fresh air.", emoji: "🌬️" },
+            { text: "You’re magnetic.", emoji: "🧲" },
+            { text: "You’re straight up fire.", emoji: "🔥" },
+            { text: "You’re killing it.", emoji: "💀" }
         ];
 
-        // ===== DOM ELEMENTS =====
-        // Get references to the HTML elements we need to manipulate
-        const complimentText = document.getElementById('complimentText');
+        // ===== LOGIC =====
+        const textArea = document.getElementById('textArea');
+        const emojiArea = document.getElementById('emojiArea');
         const generateBtn = document.getElementById('generateBtn');
 
-        // ===== FUNCTION: GENERATE RANDOM COMPLIMENT =====
-        /**
-         * Generates a random compliment from the compliments array
-         * and displays it in the compliment display area
-         */
-        function generateCompliment() {
-            // Generate a random index between 0 and the length of the array
-            const randomIndex = Math.floor(Math.random() * compliments.length);
+        function getCompliment() {
+            // Fade out
+            textArea.classList.add('fade-out');
+            emojiArea.style.transform = "scale(0.5)";
             
-            // Get the compliment at that random index
-            const randomCompliment = compliments[randomIndex];
-            
-            // Update the text content of the display area
-            complimentText.textContent = randomCompliment;
+            setTimeout(() => {
+                // Get Random
+                const random = compliments[Math.floor(Math.random() * compliments.length)];
+                
+                // Set Content
+                textArea.textContent = random.text;
+                emojiArea.textContent = random.emoji;
+                
+                // Fade in
+                textArea.classList.remove('fade-out');
+                emojiArea.style.transform = "scale(1)";
+                
+                // Add a little pop to the emoji
+                emojiArea.animate([
+                    { transform: 'scale(0.5)' },
+                    { transform: 'scale(1.2)' },
+                    { transform: 'scale(1)' }
+                ], {
+                    duration: 400,
+                    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                });
+
+            }, 300); // Wait for fade out
         }
 
-        // ===== EVENT LISTENER =====
-        // Listen for clicks on the button and call generateCompliment when clicked
-        generateBtn.addEventListener('click', generateCompliment);
-
-        // ===== OPTIONAL: GENERATE INITIAL COMPLIMENT ON PAGE LOAD =====
-        // Uncomment the line below if you want a compliment to appear immediately when the page loads
-        // generateCompliment();
+        // Event Listener
+        generateBtn.addEventListener('click', getCompliment);
     </script>
 </body>
 </html>
