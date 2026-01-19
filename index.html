@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliment Generator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+            min-height: 100vh;
+            /* Flexbox to center content vertically and horizontally */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 100%;
+            /* Subtle shadow for depth */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            /* Smooth transition for any changes */
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ===== HEADER ===== */
+        h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #212529;
+        }
+
+        /* ===== COMPLIMENT DISPLAY ===== */
+        .compliment-display {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: #212529;
+            margin-bottom: 40px;
+            min-height: 80px;
+            /* Flexbox to center the text vertically */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #F8F9FA;
+        }
+
+        /* ===== BUTTON ===== */
+        .generate-btn {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background-color: #FF6B6B;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            cursor: pointer;
+            /* Smooth color transition on hover */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .generate-btn:hover {
+            background-color: #FFD166;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 209, 102, 0.4);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .compliment-display {
+                font-size: 1.2rem;
+                min-height: 100px;
+            }
+
+            .generate-btn {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <h1>✨ Daily Compliment ✨</h1>
+        
+        <!-- Compliment Display Area -->
+        <div class="compliment-display" id="complimentText">
+            Click the button below for a compliment!
+        </div>
+        
+        <!-- Generate Button -->
+        <button class="generate-btn" id="generateBtn">Get a New Compliment</button>
+    </div>
+
+    <script>
+        // ===== COMPLIMENTS ARRAY =====
+        // Array containing all available compliments
+        const compliments = [
+            "Your smile lights up the room! 😊",
+            "You have an amazing sense of creativity!",
+            "Your positive energy is contagious!",
+            "You're an inspiration to everyone around you! ✨",
+            "You have a great eye for detail!",
+            "Your kindness makes the world a better place! 💛",
+            "You're incredibly thoughtful and caring!",
+            "Your determination is truly admirable! 💪",
+            "You bring out the best in other people!",
+            "You have a fantastic sense of humor! 😄",
+            "Your perspective is refreshing and unique!",
+            "You're making a real difference in this world! 🌟",
+            "Your passion is absolutely inspiring!",
+            "You have an incredible ability to make people feel valued!"
+        ];
+
+        // ===== DOM ELEMENTS =====
+        // Get references to the HTML elements we need to manipulate
+        const complimentText = document.getElementById('complimentText');
+        const generateBtn = document.getElementById('generateBtn');
+
+        // ===== FUNCTION: GENERATE RANDOM COMPLIMENT =====
+        /**
+         * Generates a random compliment from the compliments array
+         * and displays it in the compliment display area
+         */
+        function generateCompliment() {
+            // Generate a random index between 0 and the length of the array
+            const randomIndex = Math.floor(Math.random() * compliments.length);
+            
+            // Get the compliment at that random index
+            const randomCompliment = compliments[randomIndex];
+            
+            // Update the text content of the display area
+            complimentText.textContent = randomCompliment;
+        }
+
+        // ===== EVENT LISTENER =====
+        // Listen for clicks on the button and call generateCompliment when clicked
+        generateBtn.addEventListener('click', generateCompliment);
+
+        // ===== OPTIONAL: GENERATE INITIAL COMPLIMENT ON PAGE LOAD =====
+        // Uncomment the line below if you want a compliment to appear immediately when the page loads
+        // generateCompliment();
+    </script>
+</body>
+</html>
